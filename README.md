@@ -45,3 +45,12 @@ It represent the time (timestamp) when a single user assign a tag he/she seems r
 The `ratings.csv` file has 4 columns.
 It consists of the User ID, Movie ID, rating, and timestamp.
 Rating is a float from 1 to 5, often by 0.5 increment. 
+
+## Analyze the data
+
+Run `analyze.py` after downloaded all necessary CSV files. 
+It will gives a summary of the data. 
+
+We found that in `links.csv`, the column `tmdbId` has 107 missing values out of 62423. 
+Then in `tags.csv`, the column `tag` has 16 missing values out of 1093360.
+Therefore, it is safe to just remove them without affecting the quality of the model. 
