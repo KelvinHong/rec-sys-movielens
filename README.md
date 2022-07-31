@@ -2,6 +2,7 @@
 
 The data can be downloaded from [here](https://grouplens.org/datasets/movielens/25m/). 
 Unzip the data and it should looked like below:
+```
 .
 ├── ml-25m
 │   ├── genome-scores.csv
@@ -13,7 +14,7 @@ Unzip the data and it should looked like below:
 |   └── tags.csv
 ├── README.md
 └── ...
-
+```
 ## Understand the data
 
 The `genome-tags.csv` file has 2 columns. 
