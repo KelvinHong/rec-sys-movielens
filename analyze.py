@@ -3,14 +3,14 @@ import os
 from termcolor import colored
 
 filenames = [
-    "genome-scores.csv",
-    "genome-tags.csv",
+    # "genome-scores.csv",
+    # "genome-tags.csv",
     "links.csv",
     "movies.csv",
     "ratings.csv",
     "tags.csv",
 ]
-files = [os.path.join("./ml-25m/", csv_file) for csv_file in filenames]
+files = [os.path.join("./ml-latest-small/", csv_file) for csv_file in filenames]
 
 for file in files:
     print("=" * 50)

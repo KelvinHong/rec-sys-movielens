@@ -1,12 +1,10 @@
 # Recommendation System for MovieLens data
 
-The data can be downloaded from [here](https://grouplens.org/datasets/movielens/25m/). 
+The data can be downloaded from [here](https://grouplens.org/datasets/movielens/#:~:text=MovieLens%20Latest%20Datasets&text=Small%3A%20100%2C000%20ratings%20and%203%2C600,Last%20updated%209%2F2018.&text=Full%3A%2027%2C000%2C000%20ratings%20and%201%2C100%2C000,relevance%20scores%20across%201%2C100%20tags.), see the "recommended for education and development" section. 
 Unzip the data and it should looked like below:
 ```
 .
-├── ml-25m
-│   ├── genome-scores.csv
-│   ├── genome-tags.csv
+├── ml-latest-small
 |   ├── links.csv
 |   ├── movies.csv
 |   ├── ratings.csv
@@ -17,11 +15,6 @@ Unzip the data and it should looked like below:
 ```
 ## Understand the data
 
-The `genome-tags.csv` file has 2 columns. 
-It is a simple id mapping to the tag of movies. 
-Some example tags are `1920s, 1930s, adventure, amnesia`. 
-The tags seems to be different than genres of the movies. 
-
 The `movies.csv` file has 3 columns.
 It consists of the Movie's id, its title and its genre. 
 Note that a movie can belongs to multiple genres, where genres
@@ -30,10 +23,6 @@ Some of the movie titles has double quotes on both ends, some do not,
 regardless of whether there is whitespace in the title. 
 Moreover, it seems very consistently there will be the release year of the movie
 at the end of the movie title, in parentheses.  
-
-The `genome-scores.csv` file has 3 columns. 
-It consists of the Movie's id, tag's id, and a score within 0 to 1 describing
-the relevance of the movie to the tag.
 
 The `links.csv` file has 3 columns.
 It consists of the Movie's id, and its corresponding ids in IMDB and TMDB database. 
@@ -52,6 +41,5 @@ Rating is a float from 1 to 5, often by 0.5 increment.
 Run `analyze.py` after downloaded all necessary CSV files. 
 It will gives a summary of the data. 
 
-We found that in `links.csv`, the column `tmdbId` has 107 missing values out of 62423. 
-Then in `tags.csv`, the column `tag` has 16 missing values out of 1093360.
+We found that in `links.csv`, the column `tmdbId` has 8 missing values out of 9742. 
 Therefore, it is safe to just remove them without affecting the quality of the model. 

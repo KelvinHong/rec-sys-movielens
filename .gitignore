@@ -1,4 +1,6 @@
 ml-25m/
+ml-latest-small/
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
