@@ -43,3 +43,10 @@ It will gives a summary of the data.
 
 We found that in `links.csv`, the column `tmdbId` has 8 missing values out of 9742. 
 Therefore, it is safe to just remove them without affecting the quality of the model. 
+
+## Computation
+
+Run `main.py` to calculate similarities with various methods based on users and items. 
+Currently Cosine similarity and Pearson Correlation are implemented. 
+
+See `./output/` for the output data.

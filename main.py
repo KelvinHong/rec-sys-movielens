@@ -4,8 +4,21 @@ import os
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-def preprocess(file_name, index = "movieId", save_as = None) -> pd.DataFrame:
+
+def preprocess(file_name: str, index: str = "movieId", save_as: str = None) -> pd.DataFrame:
+    """Take a file with columns "userId", "movieId", "rating", 
+    then pivot them to create a rating table. 
+
+    Args:
+        file_name (str): The original file to take rating from.
+        index (str, optional): The index for the dataframe, row names. Defaults to "movieId".
+        save_as (str, optional): Save the pivoted table as csv file. Defaults to None.
+
+    Returns:
+        pd.DataFrame: _description_
+    """
     df = pd.read_csv(file_name)
     # movieIDs = df["movieId"].unique()
     # userIDs = df["userId"].unique()
@@ -29,7 +42,15 @@ def preprocess(file_name, index = "movieId", save_as = None) -> pd.DataFrame:
 
     return mat
 
-def visualize_cosine(df, csv, png, fmt = "%.3f"):
+def visualize_cosine(df: pd.DataFrame, csv: str, png: str, fmt: str = "%.3f"):
+    """Visualize the result of cosine similarity.
+
+    Args:
+        df (pd.DataFrame): The pivoted data frame obtained from the preprocess function.
+        csv (str): The path to save cosine similarity matrix as csv file.
+        png (str): The path to save visualization of cosine similarity.
+        fmt (str, optional): Format of floats saving into the csv file. Defaults to "%.3f".
+    """
     sim_mat = cosine_similarity(df.fillna(0))
     np.savetxt(csv, sim_mat, delimiter=",", fmt=fmt)
     print(f"Dataframe shape {df.shape}, siilarity matrix {sim_mat.shape}.")
@@ -50,6 +71,7 @@ if __name__ == "__main__":
     user_row_df = preprocess(file_name, index="userId", save_as = "./output/user-movie-rating.csv")
     
     # Cosine similarity based on user and item separately.
+    # Note that Cosine Similarity is based on rows.
     print("Item based cosine similarity:")
     visualize_cosine(
         item_row_df, 
@@ -64,6 +86,14 @@ if __name__ == "__main__":
         png = "./output/userbased_corr.png", 
     )
 
-    # Pearson Similarity based on user and item separately.
+    # Pearson Correlation based on user and item separately.
+    # Note that Pearson Correlation is based on columns.
+    print("item based Pearson Correlation:")
+    mat_pitem = user_row_df.corr(method="pearson")
+    mat_pitem.to_csv("./output/itembased_pearson.csv", float_format = "%.3f")
+
+    print("User based Pearson Correlation:")
+    mat_puser = item_row_df.corr(method="pearson")
+    mat_puser.to_csv("./output/userbased_pearson.csv", float_format = "%.3f")
 
     # K nearest neighbor method base on user and item separately.
