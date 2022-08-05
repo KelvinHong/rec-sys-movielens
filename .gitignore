@@ -1,6 +1,8 @@
 ml-25m/
 ml-latest-small/
 output/
+*.pdf
+playground.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
