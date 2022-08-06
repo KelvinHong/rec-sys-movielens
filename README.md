@@ -50,3 +50,7 @@ Run `main.py` to calculate similarities with various methods based on users and 
 Currently Cosine similarity and Pearson Correlation are implemented. 
 
 See `./output/` for the output data.
+
+## K-Nearest Neighbors for Movies
+
+[Under development]

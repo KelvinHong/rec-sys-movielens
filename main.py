@@ -61,6 +61,14 @@ def visualize_cosine(df: pd.DataFrame, csv: str, png: str, fmt: str = "%.3f"):
     print(f"Similarity matrix saved at {os.path.abspath(csv)} .")
     print(f"Similarity visualization saved at {os.path.abspath(png)} .")
     
+def KNN(df, K=5):
+    mat = df.fillna(0).to_numpy()
+    ids = df.index.to_numpy()
+    nbrs = NearestNeighbors(n_neighbors=K, algorithm='ball_tree').fit(mat)
+    distances, indices = nbrs.kneighbors(mat)
+    scores = 1/(1+distances)
+    ids_indices = ids[indices]
+    return scores, ids_indices
 
 if __name__ == "__main__":
     os.makedirs("./output/", exist_ok=True)
@@ -86,8 +94,8 @@ if __name__ == "__main__":
         png = "./output/userbased_corr.png", 
     )
 
-    # Pearson Correlation based on user and item separately.
-    # Note that Pearson Correlation is based on columns.
+    # # Pearson Correlation based on user and item separately.
+    # # Note that Pearson Correlation is based on columns.
     print("item based Pearson Correlation:")
     mat_pitem = user_row_df.corr(method="pearson")
     mat_pitem.to_csv("./output/itembased_pearson.csv", float_format = "%.3f")
@@ -97,3 +105,10 @@ if __name__ == "__main__":
     mat_puser.to_csv("./output/userbased_pearson.csv", float_format = "%.3f")
 
     # K nearest neighbor method base on user and item separately.
+    # Note that KNN is based on rows.
+    K = 5
+    print("User based KNN")
+    uscores, uids_indices = KNN(user_row_df, K=K)
+
+    print("Item based KNN")
+    iscores, iids_indices = KNN(item_row_df, K=K)
