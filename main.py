@@ -1,74 +1,5 @@
-import pandas as pd
-import numpy as np
 import os
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.neighbors import NearestNeighbors
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-
-def preprocess(file_name: str, index: str = "movieId", save_as: str = None) -> pd.DataFrame:
-    """Take a file with columns "userId", "movieId", "rating", 
-    then pivot them to create a rating table. 
-
-    Args:
-        file_name (str): The original file to take rating from.
-        index (str, optional): The index for the dataframe, row names. Defaults to "movieId".
-        save_as (str, optional): Save the pivoted table as csv file. Defaults to None.
-
-    Returns:
-        pd.DataFrame: _description_
-    """
-    df = pd.read_csv(file_name)
-    # movieIDs = df["movieId"].unique()
-    # userIDs = df["userId"].unique()
-    
-    # Aggregate data into 2-dimensional matrix
-    assert index in ["userId", "movieId"]
-    if index == "movieId":
-        mat = df.pivot(
-            index="movieId",
-            columns="userId",
-            values="rating"
-        )
-    else:
-        mat = df.pivot(
-            index="userId",
-            columns="movieId",
-            values="rating"
-        )
-    if save_as is not None:
-        mat.to_csv(save_as)
-
-    return mat
-
-def visualize_cosine(df: pd.DataFrame, csv: str, png: str, fmt: str = "%.3f"):
-    """Visualize the result of cosine similarity.
-
-    Args:
-        df (pd.DataFrame): The pivoted data frame obtained from the preprocess function.
-        csv (str): The path to save cosine similarity matrix as csv file.
-        png (str): The path to save visualization of cosine similarity.
-        fmt (str, optional): Format of floats saving into the csv file. Defaults to "%.3f".
-    """
-    sim_mat = cosine_similarity(df.fillna(0))
-    np.savetxt(csv, sim_mat, delimiter=",", fmt=fmt)
-    print(f"Dataframe shape {df.shape}, siilarity matrix {sim_mat.shape}.")
-    zero_count = np.count_nonzero(sim_mat == 0)
-    print(f"Count of zeros in similarity matrix is {zero_count}, {round(100 * zero_count / (sim_mat.shape[0] * sim_mat.shape[1]), 2)}%.")
-    plt.matshow(sim_mat)
-    plt.savefig(png)
-    print(f"Similarity matrix saved at {os.path.abspath(csv)} .")
-    print(f"Similarity visualization saved at {os.path.abspath(png)} .")
-    
-def KNN(df, K=5):
-    mat = df.fillna(0).to_numpy()
-    ids = df.index.to_numpy()
-    nbrs = NearestNeighbors(n_neighbors=K, algorithm='ball_tree').fit(mat)
-    distances, indices = nbrs.kneighbors(mat)
-    scores = 1/(1+distances)
-    ids_indices = ids[indices]
-    return scores, ids_indices
+from utils import *
 
 if __name__ == "__main__":
     os.makedirs("./output/", exist_ok=True)
@@ -108,7 +39,9 @@ if __name__ == "__main__":
     # Note that KNN is based on rows.
     K = 5
     print("User based KNN")
-    uscores, uids_indices = KNN(user_row_df, K=K)
+    userbased_save_as = "./output/knn-userbased.npz"
+    uscores, uids_indices = KNN(user_row_df, userbased_save_as, K=K)
 
     print("Item based KNN")
-    iscores, iids_indices = KNN(item_row_df, K=K)
+    itembased_save_as = "./output/knn-itembased.npz"
+    iscores, iids_indices = KNN(item_row_df, itembased_save_as, K=K)
