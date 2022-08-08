@@ -110,7 +110,14 @@ Here we have several applications using the results of computation above.
 ### K-Nearest Neighbors for Movies
 
 This application is to recommend similar movies to the chosen movie. 
+The underlying logic is to use user ratings as a basis to calculate the distance
+between different movies, then find the nearest movies to the chosen movie 
+(hence the name, nearest neighbors).
 
+Based on our experiments, this KNN techniques did suggest related movies based on their
+genres. 
+Feel free to play around on your own! 
+ 
 Run
 ```
 python KNN_interactive.py
@@ -121,6 +128,19 @@ Enter some integer, which refers to the movie's ID and shows its title besides i
 Then, click on a button with movie's ID to see the other 4 movies related to it,
 alongside with its genres. 
 
-The relation is based on the distance from user ratings. 
 
-![Sample GUI](./media/knngui.png)
+![Sample GUI](./media/knngui_v2.png)
+
+You can click the button to view the movie website in IMDB. 
+For example, clicking on the "Gunner Palace" will direct you to this website:
+
+![Gunner Palace](./media/by_movie.png)
+
+You can also click on the genres buttons to view related movies.
+Clicking on the "Documentary" button will lead you to this website:
+
+![Documentary Genre](./media/by_genre.PNG)
+
+Based on the analyzed data, we didn't found any missing value in the `imdbId` column of `links.csv`,
+which is the file we used to access the IMDB website, hence the link should be correct. 
+

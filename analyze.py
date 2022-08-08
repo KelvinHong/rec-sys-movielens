@@ -10,7 +10,9 @@ filenames = [
     "ratings.csv",
     "tags.csv",
 ]
-files = [os.path.join("./ml-latest-small/", csv_file) for csv_file in filenames]
+files = [
+    os.path.join("./ml-latest-small/", csv_file) for csv_file in filenames
+]
 
 for file in files:
     print("=" * 50)
@@ -40,5 +42,7 @@ for file in files:
                 and df[colname].dtype != "object"\
                 and colname != "timestamp")]
     if numeric_non_id_cols:
-        print("    Statistics of some columns are given:\n", df[numeric_non_id_cols].describe().apply(lambda s: s.apply('{0:.5f}'.format)))
-    
+        print(
+            "    Statistics of some columns are given:\n",
+            df[numeric_non_id_cols].describe().apply(
+                lambda s: s.apply('{0:.5f}'.format)))
