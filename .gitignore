@@ -4,6 +4,7 @@ output/
 *.pdf
 playground.py
 *.ipynb
+!app.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
